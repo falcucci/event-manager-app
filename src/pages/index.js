@@ -8,7 +8,7 @@ export default function App() {
       <Navbar variant="sticky" css={{ zIndex: 9999 }} >
         <Navbar.Brand css={{ mr: "$100" }}>
           <Text b color="inherit" css={{ mr: "$11" }} hideIn="xs">
-            EVENET MANAGER
+            EVENT MANAGER
           </Text>
           <Navbar.Content hideIn="xs" variant="highlight">
             <Navbar.Link
