@@ -1,6 +1,6 @@
 > This project isnt a real production application and is used as a reference to studies or as a starter boilerplate.
 
-# evenet manager app
+# event manager app
 
 Yet another app that allows users to create, manage, and view events.
 
