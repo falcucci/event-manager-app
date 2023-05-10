@@ -10,6 +10,7 @@ import {
   Grid,
 } from "@nextui-org/react";
 import { Mail, Password } from "../../components/icons";
+import { Events } from "../../components/events";
 import { useState } from "react";
 
 export const Content = () => {
@@ -24,7 +25,7 @@ export const Content = () => {
     <Grid.Container
       justify="center"
       css={{ alignContent: "center", alignItems: "center" }}>
-      <Grid css={{ width: "60%" }}>
+      <Grid css={{ width: "100%" }}>
         <Button auto color="warning" shadow onPress={handler}>
           Open modal
         </Button>
@@ -77,6 +78,7 @@ export const Content = () => {
             </Button>
           </Modal.Footer>
         </Modal>
+        <Events />
       </Grid>
     </Grid.Container>
   );
