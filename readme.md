@@ -1,9 +1,8 @@
-> This project is just an example and should not be used as a reference for any real-world application. It is provided as a demonstration of certain concepts and should not be used as a basis for any production code.
+> This project isnt a real production application and is used as a reference to studies or as a starter boilerplate.
 
 # evenet manager app
 
 Yet another app that allows users to create, manage, and view events.
-
 
 ## Features
 
