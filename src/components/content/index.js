@@ -37,7 +37,7 @@ export const Content = () => {
           onClose={closeHandler}>
           <Modal.Header>
             <Text id="modal-title" size={18}>
-              Event Manager {" "}
+              Event Manager{" "}
               <Text b size={18}>
                 App
               </Text>
