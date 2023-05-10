@@ -14,9 +14,15 @@ export default function App() {
             <Navbar.Link
               target={"_blank"}
               href="https://github.com/falcucci/event-manager-app"
-              isActive
               activeColor="success">
               Github
+            </Navbar.Link>
+            <Navbar.Link
+              target={"_blank"}
+              href="https://github.com/falcucci/event-manager-app"
+              isActive
+              activeColor="success">
+              API Docs
             </Navbar.Link>
           </Navbar.Content>
         </Navbar.Brand>
@@ -36,7 +42,7 @@ export default function App() {
                 <Avatar
                   bordered
                   as="button"
-                  color="secondary"
+                  color="success"
                   size="md"
                   src="https://i.pravatar.cc/150?u=a042581f4e29026704d"
                 />
@@ -44,7 +50,7 @@ export default function App() {
             </Navbar.Item>
             <Dropdown.Menu
               aria-label="User menu actions"
-              color="secondary"
+              color="success"
               onAction={actionKey => console.log({ actionKey })}>
               <Dropdown.Item key="profile" css={{ height: "$18" }}>
                 <Text b color="inherit" css={{ d: "flex" }}>
@@ -54,14 +60,17 @@ export default function App() {
                   zoey@example.com
                 </Text>
               </Dropdown.Item>
-              <Dropdown.Item key="settings" withDivider>
-                My Settings
+              <Dropdown.Item key="all" withDivider>
+                All Events
+              </Dropdown.Item>
+              <Dropdown.Item key="mines" withDivider>
+                My Events
               </Dropdown.Item>
               <Dropdown.Item key="team_settings">
-                Team Settings
+                Create Event
               </Dropdown.Item>
               <Dropdown.Item key="analytics" withDivider>
-                Analytics
+                API Docs
               </Dropdown.Item>
               <Dropdown.Item key="system">System</Dropdown.Item>
               <Dropdown.Item key="configurations">

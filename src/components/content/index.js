@@ -26,9 +26,6 @@ export const Content = () => {
       justify="center"
       css={{ alignContent: "center", alignItems: "center" }}>
       <Grid css={{ width: "100%" }}>
-        <Button auto color="warning" shadow onPress={handler}>
-          Open modal
-        </Button>
         <Modal
           closeButton
           blur
