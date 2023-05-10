@@ -5,7 +5,7 @@ import { Image } from "@nextui-org/react";
 export default function App() {
   return (
     <Layout>
-      <Navbar variant="sticky">
+      <Navbar variant="sticky" css={{ zIndex: 9999 }} >
         <Navbar.Brand css={{ mr: "$100" }}>
           <Text b color="inherit" css={{ mr: "$11" }} hideIn="xs">
             EVENET MANAGER
