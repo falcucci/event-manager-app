@@ -12,6 +12,7 @@ import {
 import {
   IconButton,
   EyeIcon,
+  HeartIcon,
   EditIcon,
   AddIcon,
   DeleteIcon,
@@ -125,12 +126,12 @@ export const Events = () => {
         return (
           <Row justify="center" align="center">
             <Col css={{ d: "flex" }}>
-              <Tooltip content="Details">
+              <Tooltip content="Subscribe">
                 <IconButton
                   onClick={() =>
                     console.log("View event", event.id)
                   }>
-                  <EyeIcon size={20} fill="#979797" />
+                  <HeartIcon size={20} fill="#979797" />
                 </IconButton>
               </Tooltip>
             </Col>
@@ -142,6 +143,17 @@ export const Events = () => {
                     setEventRegisterModal(true)
                   }}>
                   <AddIcon size={20} fill="#979797" />
+                </IconButton>
+              </Tooltip>
+            </Col>
+            <Col css={{ d: "flex" }}>
+              <Tooltip content="Create event">
+                <IconButton
+                  onClick={() => {
+                    console.log("Edit event", event.id);
+                    setEventRegisterModal(true)
+                  }}>
+                  <EditIcon size={20} fill="#979797" />
                 </IconButton>
               </Tooltip>
             </Col>
