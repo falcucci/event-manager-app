@@ -57,7 +57,6 @@ export const Events = () => {
   const columns = [
     { name: "ID", uid: "id" },
     { name: "NAME", uid: "name" },
-    { name: "DESCRIPTION", uid: "description" },
     { name: "STARTS", uid: "start_date" },
     { name: "ENDS", uid: "end_date" },
     { name: "STATUS", uid: "status" },

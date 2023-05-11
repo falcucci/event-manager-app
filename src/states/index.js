@@ -1,18 +1,33 @@
-import { atom } from 'jotai'
-import { atomWithStorage } from 'jotai/utils'
+import dayjs from "dayjs";
+import { atom } from "jotai";
+import { atomWithStorage } from "jotai/utils";
 
-export const user = atom({
+export const userAtom = atom({
   username: "aurora",
   password: "alexsander",
 });
 
-export const accessAtom = atomWithStorage('access', null)
-export const refreshAtom = atomWithStorage('refresh', null)
+export const eventAtom = atom({
+  name: "Rust Meetup",
+  description: `This Rust Meetup is an event for developers interested
+  in learning more about the Rust programming language.`,
+  status: "active",
+  start_date: dayjs().format("YYYY-MM-DD"),
+  end_date: dayjs().add(1, 'day').format("YYYY-MM-DD"),
+  location: "Milan",
+  is_public: true,
+});
 
-export const loginVisibleAtom = atomWithStorage('loginVisible', true)
-export const registerEventVisibleAtom = atom(false)
+export const accessAtom = atomWithStorage("access", null);
+export const refreshAtom = atomWithStorage("refresh", null);
 
-export const eventsAtom = atom([])
+export const loginVisibleAtom = atomWithStorage(
+  "loginVisible",
+  true
+);
+export const registerEventVisibleAtom = atom(false);
+
+export const eventsAtom = atom([]);
 
 export const state = {
   first_name: "",
@@ -44,19 +59,26 @@ const accountReducer = (state, action) => {
     case "LOGGING_IN":
       return { ...state, ...authingTrue };
     case "LOGGED_IN":
-      return { ...state, ...action.value, ...authingFalse, loggedIn: true, tokenValid: true };
+      return {
+        ...state,
+        ...action.value,
+        ...authingFalse,
+        loggedIn: true,
+        tokenValid: true,
+      };
     default:
       return state;
   }
-}
+};
 
-export const accountReducerAtom = atom(state, (get, set, action) => {
-  (async () => {
-    set(
-      accountReducerAtom,
-      await accountReducer(get(accountReducerAtom), action)
-    );
-  })();
-});
-
-
+export const accountReducerAtom = atom(
+  state,
+  (get, set, action) => {
+    (async () => {
+      set(
+        accountReducerAtom,
+        await accountReducer(get(accountReducerAtom), action)
+      );
+    })();
+  }
+);

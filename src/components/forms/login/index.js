@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { useAtom } from "jotai";
-import { user } from "../../../states";
+import { userAtom } from "../../../states";
 import {
   Text,
   Input,
@@ -15,7 +15,7 @@ import { loginVisibleAtom, accountReducerAtom } from "../../../states";
 
 export const FormLogin = ({ handleSubmit }) => {
   const [account, dispatch] = useAtom(accountReducerAtom);
-  const [userState, setUser] = useAtom(user);
+  const [userState, setUser] = useAtom(userAtom);
   const [loginVisible, setLoginVisible] = useAtom(loginVisibleAtom);
   const handler = () => setVisible(true);
   const closeHandler = () => {

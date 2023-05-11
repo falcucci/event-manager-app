@@ -10,15 +10,34 @@ import {
   Button,
   Text,
 } from "@nextui-org/react";
-import { registerEventVisibleAtom } from "../../../states";
+import {
+  registerEventVisibleAtom,
+  eventAtom,
+} from "../../../states";
 
 export const FormRegisterEvent = ({ handleSubmit }) => {
   const [eventRegisterModal, setEventRegisterModal] = useAtom(
     registerEventVisibleAtom
   );
 
+  const [event, setEvent] = useAtom(eventAtom);
+
   const closeHandler = () => {
     setEventRegisterModal(false);
+  };
+
+  const updateEvent = e => {
+    const { name, value } = e.target;
+    setEvent(event => {
+      const updatedEvent = event;
+      updatedEvent[name] = value;
+      return { ...event, ...updatedEvent };
+    });
+  };
+
+  const submitForm = async e => {
+    e.preventDefault();
+    handleSubmit(event);
   };
 
   return (
@@ -28,7 +47,7 @@ export const FormRegisterEvent = ({ handleSubmit }) => {
       open={eventRegisterModal}
       aria-labelledby="modal-title"
       onClose={closeHandler}>
-      <form onSubmit={""}>
+      <form onSubmit={submitForm}>
         <Modal.Header>
           <Text id="modal-title" size={18}>
             Register an {""}
@@ -47,7 +66,9 @@ export const FormRegisterEvent = ({ handleSubmit }) => {
                 color="primary"
                 size="lg"
                 placeholder="Name"
-                initialValue={"Rust Meetup"}
+                name="name"
+                onChange={updateEvent}
+                initialValue={event.name}
               />
             </Grid>
           </Grid.Container>
@@ -59,8 +80,10 @@ export const FormRegisterEvent = ({ handleSubmit }) => {
                 fullWidth
                 color="primary"
                 size="lg"
+                name="status"
                 placeholder="Status"
-                initialValue={"active"}
+                onChange={updateEvent}
+                initialValue={event.status}
               />
             </Grid>
             <Grid xs>
@@ -71,7 +94,9 @@ export const FormRegisterEvent = ({ handleSubmit }) => {
                 color="primary"
                 size="lg"
                 placeholder="Location"
-                initialValue={"Milan"}
+                name="location"
+                onChange={updateEvent}
+                initialValue={event.location}
               />
             </Grid>
           </Grid.Container>
@@ -85,8 +110,10 @@ export const FormRegisterEvent = ({ handleSubmit }) => {
                 size="lg"
                 type="date"
                 label="Start Date"
+                name="start_date"
                 placeholder="Start Date"
-                initialValue={dayjs().format("YYYY-MM-DD")}
+                onChange={updateEvent}
+                initialValue={event.start_date}
               />
             </Grid>
             <Grid xs>
@@ -99,7 +126,9 @@ export const FormRegisterEvent = ({ handleSubmit }) => {
                 type="date"
                 label="End Date"
                 placeholder="End Date"
-                initialValue={dayjs().add(1, 'day').format("YYYY-MM-DD")}
+                name="end_date"
+                onChange={updateEvent}
+                initialValue={event.end_date}
               />
             </Grid>
           </Grid.Container>
@@ -112,15 +141,27 @@ export const FormRegisterEvent = ({ handleSubmit }) => {
                 color="primary"
                 size="lg"
                 placeholder="Description"
-                initialValue={
-                  "This Rust Meetup is an event for developers interested in learning more about the Rust programming language. Attendees will have the opportunity to network with other Rust developers, learn from experienced Rust developers, and discuss the latest developments in the Rust community. There will also be presentations and workshops on topics such as Rust fundamentals, best practices, and advanced Rust topics. All skill levels are welcome, so come join us and learn more about Rust!"
-                }
+                name="description"
+                onChange={updateEvent}
+                initialValue={event.description}
               />
             </Grid>
           </Grid.Container>
           <Grid.Container gap={2} justify="center">
             <Grid xs>
-              <Checkbox isRounded defaultSelected color="primary">
+              <Checkbox
+                name="is_public"
+                isRounded
+                // isSelected={event.is_public}
+                onChange={(e) => {
+                  return updateEvent({
+                    target: {
+                      name: "is_public",
+                      value: e,
+                    },
+                  })
+                }}
+                color="primary">
                 this event is public
               </Checkbox>
             </Grid>
