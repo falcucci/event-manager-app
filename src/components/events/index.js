@@ -16,8 +16,13 @@ import {
   DeleteIcon,
 } from "../icons";
 
-_.in
+import { useEffect } from "react";
+
 export const Events = () => {
+
+  useEffect(() => {}, []);
+
+
   const columns = [
     { name : "ID", uid: "id" },
     { name : "NAME", uid: "name" },
