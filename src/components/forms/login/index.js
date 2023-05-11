@@ -89,10 +89,10 @@ export const FormLogin = ({ handleSubmit }) => {
             </Checkbox>
             <Text size={14}>Forgot password?</Text>
           </Row>
-          <Row justify="space-between">
+          <Row justify="center">
             {error && (
               <Text color="error">
-                Almost before we knew it, we had left the ground.
+              {error}
               </Text>
             )}
           </Row>

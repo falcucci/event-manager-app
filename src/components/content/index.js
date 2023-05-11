@@ -16,6 +16,8 @@ import {
 import { actions, accessAtom, refreshAtom, loginVisibleAtom } from "../../states";
 import { useEffect } from "react";
 
+const { log } = console;
+
 export const Content = () => {
   const [account, dispatch] = useAtom(accountReducerAtom);
   const [events, setEvents] = useAtom(eventsAtom);
@@ -29,18 +31,19 @@ export const Content = () => {
   const setLoginError = useSetAtom(loginErrorAtom);
 
   useEffect(() => {
-    console.log('account.loggedIn: ', account.loggedIn);
+    log('account.loggedIn: ', account.loggedIn);
     if (account.loggedIn) {
       setLoginVisible(false);
     }
 
   }, [account.loggedIn]);
 
+  
   const submitForm = async user => {
     try {
       dispatch({ type: actions.LOGGING_IN });
       const { username, password } = user;
-      console.log('user: ', user);
+      log('user: ', user);
       const params = {
         path: "auth/login",
         method: "POST",
@@ -48,15 +51,15 @@ export const Content = () => {
       };
       const [fetchError, fetchData] = await promiseHandler(api(params));
       if (fetchError || _.get(fetchData, 'status') >= 400) {
-        console.log('fetchData: ', fetchData);
-        console.log('unicorn1');
-        console.log(fetchError); 
-        setLoginError('Invalid username or password')
+        log(fetchError); 
+        setLoginError(
+          'Almost before we knew it, we had left the ground.'
+        )
         return;
       } 
       const [error, data] = await promiseHandler(fetchData.json());
       if (error) {
-        console.log(error); 
+        log(error); 
         return
       }
       dispatch({
@@ -65,15 +68,18 @@ export const Content = () => {
       }); 
       setAccess(data.access);
       setRefresh(data.refresh);
-      console.log('account: ', account);
+      
+      log('account: ', account);
     } catch (error) {
-      console.log(error);
+      
+      log(error);
       return
     }
   };
 
   const submitEventForm = async event => {
-    console.log('event: ', event);
+    
+    log('event: ', event);
     const params = {
       path: "events/",
       method: "POST",
@@ -83,10 +89,13 @@ export const Content = () => {
     };
 
     const [fetchError, fetchData] = await promiseHandler(api(params))
-    if (fetchError) console.log(fetchError);
+    if (fetchError) 
+      log(fetchError);
     const [error, data] = await promiseHandler(fetchData.json());
-    if (error) console.log(error);
-    console.log('data: ', data);
+    if (error) 
+      log(error);
+    
+    log('data: ', data);
     setEventRegisterModal(false);
     events.push(data)
     setEvents(events);
