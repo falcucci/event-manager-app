@@ -136,6 +136,42 @@ export const Events = () => {
     setEvents(eventsData);
   };
 
+  const handleDelete = async id => {
+    const params = {
+      path: `events/${id}/`,
+      method: "DELETE",
+      access: access,
+      refresh: refresh,
+    };
+    const [fetchError, fetchData] = await promiseHandler(api(params));
+    if (fetchError) console.log(fetchError);
+    console.log("fetchData: ", fetchData);
+    const [error, data] = await promiseHandler(fetchData.json());
+    if (error) console.log(error);
+    console.log("data: ", data);
+    if (fetchError || fetchData.status >= 400)
+      return alert(data.detail);
+    const [
+      fetchEventsError,
+      fetchEventsData,
+    ] = await promiseHandler(
+      api({
+        path: "events",
+        method: "GET",
+        access: access,
+        refresh: refresh,
+      })
+    );
+    if (fetchEventsError) console.log(fetchEventsError);
+    console.log("fetchEventsData: ", fetchEventsData);
+    const [eventsError, eventsData] = await promiseHandler(
+      fetchEventsData.json()
+    );
+    if (eventsError) console.log(eventsError);
+    console.log("eventsData: ", eventsData);
+    setEvents(eventsData);
+  };
+
   const columns = [
     { name: "ID", uid: "id" },
     { name: "NAME", uid: "name" },
@@ -251,10 +287,10 @@ export const Events = () => {
               <Tooltip
                 content="Delete event"
                 color="error"
-                onClick={
-                  () => console.log("Delete event", event.id)
-                  // handleDelete(event.id)
-                }>
+                onClick={() => {
+                  console.log("Delete event", event.id);
+                  handleDelete(event.id);
+                }}>
                 <IconButton>
                   <DeleteIcon size={20} fill="#FF0080" />
                 </IconButton>
