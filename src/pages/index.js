@@ -180,11 +180,11 @@ export default function App() {
                     {account.email}
                   </Text>
                 </Dropdown.Item>
-                <Dropdown.Item key="mines" withDivider>
-                  Mines
-                </Dropdown.Item>
                 <Dropdown.Item key="all" withDivider>
                   All Events
+                </Dropdown.Item>
+                <Dropdown.Item key="mines" withDivider>
+                  Mines
                 </Dropdown.Item>
                 <Dropdown.Item key="subscribed" withDivider>
                   Subscribed Events
