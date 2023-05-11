@@ -79,6 +79,7 @@ export const FormLogin = ({ handleSubmit }) => {
             size="lg"
             placeholder="Password"
             name="password"
+            type="password"
             onChange={updateEvent}
             initialValue={user.password}
             contentLeft={<Password fill="currentColor" />}
