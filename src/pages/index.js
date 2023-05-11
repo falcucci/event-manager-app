@@ -13,7 +13,7 @@ export default function App() {
   const [refresh, setRefresh] = useAtom(refreshAtom);
 
   const handleDropdownAction = (e) => {
-    return {
+    const actions = {
       all: async () => {
         const params = {
           path: "events",
@@ -56,7 +56,9 @@ export default function App() {
         console.log('data: ', data);
         setEvents(data); 
       }
-    }[e]()
+    }
+    const action = actions[e]
+    action && action()
   };
 
   return (
