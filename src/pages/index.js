@@ -3,6 +3,7 @@ import dayjs from "dayjs";
 import { Layout } from "../components/layout";
 import { Image } from "@nextui-org/react";
 import { useAtom } from "jotai";
+import { RESET } from "jotai/utils";
 import {
   accountReducerAtom,
   eventsAtom,
@@ -10,6 +11,7 @@ import {
   refreshAtom,
 } from "../states";
 import { api, promiseHandler } from "../utils";
+import { actions, state } from "../states";
 import { Link } from "@nextui-org/react";
 
 export default function App() {
@@ -19,7 +21,7 @@ export default function App() {
   const [refresh, setRefresh] = useAtom(refreshAtom);
 
   const handleDropdownAction = e => {
-    const actions = {
+    const functions = {
       all: async () => {
         const params = {
           path: "events",
@@ -114,9 +116,18 @@ export default function App() {
         if (error) console.log(error);
         console.log("data: ", data);
         setEvents(data);
+      },
+      logout: async () => {
+        console.log('logout');
+        dispatch({
+          type: actions.LOGGING_OUT,
+          value: state
+        });
+        setAccess(RESET);
+        setRefresh(RESET);
       }
     };
-    const action = actions[e];
+    const action = functions[e];
     action && action();
   };
 
@@ -136,7 +147,7 @@ export default function App() {
             </Navbar.Link>
             <Navbar.Link
               target={"_blank"}
-              href="https://github.com/falcucci/event-manager-app"
+              href="http://localhost:8000/swagger/"
               isActive
               activeColor="success">
               API Docs
@@ -194,16 +205,6 @@ export default function App() {
                 </Dropdown.Item>
                 <Dropdown.Item key="past_events" withDivider>
                   Past Events
-                </Dropdown.Item>
-                <Dropdown.Item key="analytics" withDivider>
-                  API Docs
-                </Dropdown.Item>
-                <Dropdown.Item key="system">System</Dropdown.Item>
-                <Dropdown.Item key="configurations">
-                  Configurations
-                </Dropdown.Item>
-                <Dropdown.Item key="help_and_feedback" withDivider>
-                  Help & Feedback
                 </Dropdown.Item>
                 <Dropdown.Item
                   key="logout"

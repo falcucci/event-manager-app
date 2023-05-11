@@ -70,6 +70,8 @@ const accountReducer = (state, action) => {
         loggedIn: true,
         tokenValid: true,
       };
+    case "LOGGING_OUT":
+      return { ...state, ...action.value };
     default:
       return state;
   }
