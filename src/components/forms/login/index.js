@@ -99,9 +99,6 @@ export const FormLogin = ({ handleSubmit }) => {
           </Row>
         </Modal.Body>
         <Modal.Footer>
-          <Button auto flat color="error" onPress={closeHandler}>
-            Close
-          </Button>
           <Button auto type={"submit"}>
             Sign in
           </Button>
