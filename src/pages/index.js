@@ -1,8 +1,14 @@
 import { Navbar, Text, Dropdown, Avatar } from "@nextui-org/react";
+import dayjs from "dayjs";
 import { Layout } from "../components/layout";
 import { Image } from "@nextui-org/react";
 import { useAtom } from "jotai";
-import { accountReducerAtom, eventsAtom, accessAtom, refreshAtom } from "../states";
+import {
+  accountReducerAtom,
+  eventsAtom,
+  accessAtom,
+  refreshAtom,
+} from "../states";
 import { api, promiseHandler } from "../utils";
 import { Link } from "@nextui-org/react";
 
@@ -12,7 +18,7 @@ export default function App() {
   const [access, setAccess] = useAtom(accessAtom);
   const [refresh, setRefresh] = useAtom(refreshAtom);
 
-  const handleDropdownAction = (e) => {
+  const handleDropdownAction = e => {
     const actions = {
       all: async () => {
         const params = {
@@ -21,11 +27,15 @@ export default function App() {
           access: access,
           refresh: refresh,
         };
-        const [fetchError, fetchData] = await promiseHandler(api(params));
-        console.log('fetchData: ', fetchData);
-        const [error, data] = await promiseHandler(fetchData.json());
+        const [fetchError, fetchData] = await promiseHandler(
+          api(params)
+        );
+        console.log("fetchData: ", fetchData);
+        const [error, data] = await promiseHandler(
+          fetchData.json()
+        );
         if (error) console.log(error);
-        console.log('data: ', data);
+        console.log("data: ", data);
         setEvents(data);
       },
       mines: async () => {
@@ -35,12 +45,16 @@ export default function App() {
           access: access,
           refresh: refresh,
         };
-        const [fetchError, fetchData] = await promiseHandler(api(params));
-        console.log('fetchData: ', fetchData);
-        const [error, data] = await promiseHandler(fetchData.json());
+        const [fetchError, fetchData] = await promiseHandler(
+          api(params)
+        );
+        console.log("fetchData: ", fetchData);
+        const [error, data] = await promiseHandler(
+          fetchData.json()
+        );
         if (error) console.log(error);
-        console.log('data: ', data);
-        setEvents(data); 
+        console.log("data: ", data);
+        setEvents(data);
       },
       subscribed: async () => {
         const params = {
@@ -49,17 +63,61 @@ export default function App() {
           access: access,
           refresh: refresh,
         };
-        const [fetchError, fetchData] = await promiseHandler(api(params));
+        const [fetchError, fetchData] = await promiseHandler(
+          api(params)
+        );
         if (fetchError) console.log(fetchError);
-        console.log('fetchData: ', fetchData);
-        const [error, data] = await promiseHandler(fetchData.json());
+        console.log("fetchData: ", fetchData);
+        const [error, data] = await promiseHandler(
+          fetchData.json()
+        );
         if (error) console.log(error);
-        console.log('data: ', data);
-        setEvents(data); 
+        console.log("data: ", data);
+        setEvents(data);
+      },
+      next_events: async () => {
+        const now = dayjs().format("YYYY-MM-DD");
+        const params = {
+          path: `events?start_date__gte=${now}`,
+          method: "GET",
+          access: access,
+          refresh: refresh,
+        };
+        const [fetchError, fetchData] = await promiseHandler(
+          api(params)
+        );
+        if (fetchError) console.log(fetchError);
+        console.log("fetchData: ", fetchData);
+        const [error, data] = await promiseHandler(
+          fetchData.json()
+        );
+        if (error) console.log(error);
+        console.log("data: ", data);
+        setEvents(data);
+      },
+      past_events: async () => {
+        const now = dayjs().format("YYYY-MM-DD");
+        const params = {
+          path: `events?end_date__lte=${now}`,
+          method: "GET",
+          access: access,
+          refresh: refresh,
+        };
+        const [fetchError, fetchData] = await promiseHandler(
+          api(params)
+        );
+        if (fetchError) console.log(fetchError);
+        console.log("fetchData: ", fetchData);
+        const [error, data] = await promiseHandler(
+          fetchData.json()
+        );
+        if (error) console.log(error);
+        console.log("data: ", data);
+        setEvents(data);
       }
-    }
-    const action = actions[e]
-    action && action()
+    };
+    const action = actions[e];
+    action && action();
   };
 
   return (
@@ -131,8 +189,11 @@ export default function App() {
                 <Dropdown.Item key="subscribed" withDivider>
                   Subscribed Events
                 </Dropdown.Item>
-                <Dropdown.Item key="team_settings">
-                  Create Event
+                <Dropdown.Item key="next_events" withDivider>
+                  Next Events
+                </Dropdown.Item>
+                <Dropdown.Item key="past_events" withDivider>
+                  Past Events
                 </Dropdown.Item>
                 <Dropdown.Item key="analytics" withDivider>
                   API Docs
