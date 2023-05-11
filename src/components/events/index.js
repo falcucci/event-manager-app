@@ -13,6 +13,7 @@ import {
   IconButton,
   EyeIcon,
   EditIcon,
+  AddIcon,
   DeleteIcon,
 } from "../icons";
 import { StyledBadge } from "../badge";
@@ -134,13 +135,13 @@ export const Events = () => {
               </Tooltip>
             </Col>
             <Col css={{ d: "flex" }}>
-              <Tooltip content="Edit event">
+              <Tooltip content="Create event">
                 <IconButton
                   onClick={() => {
                     console.log("Edit event", event.id);
                     setEventRegisterModal(true)
                   }}>
-                  <EditIcon size={20} fill="#979797" />
+                  <AddIcon size={20} fill="#979797" />
                 </IconButton>
               </Tooltip>
             </Col>
