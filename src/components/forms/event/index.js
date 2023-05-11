@@ -1,5 +1,6 @@
 import React from "react";
 import { useAtom } from "jotai";
+import dayjs from "dayjs";
 import {
   Modal,
   Input,
@@ -49,19 +50,6 @@ export const FormRegisterEvent = ({ handleSubmit }) => {
                 initialValue={"Rust Meetup"}
               />
             </Grid>
-            <Grid xs>
-              <Input
-                clearable
-                bordered
-                fullWidth
-                color="primary"
-                size="lg"
-                placeholder="Description"
-                initialValue={
-                  "This Rust Meetup is an event for developers interested in learning more about the Rust programming language. Attendees will have the opportunity to network with other Rust developers, learn from experienced Rust developers, and discuss the latest developments in the Rust community. There will also be presentations and workshops on topics such as Rust fundamentals, best practices, and advanced Rust topics. All skill levels are welcome, so come join us and learn more about Rust!"
-                }
-              />
-            </Grid>
           </Grid.Container>
           <Grid.Container gap={2} justify="center">
             <Grid xs>
@@ -98,7 +86,7 @@ export const FormRegisterEvent = ({ handleSubmit }) => {
                 type="date"
                 label="Start Date"
                 placeholder="Start Date"
-                initialValue={""}
+                initialValue={dayjs().format("YYYY-MM-DD")}
               />
             </Grid>
             <Grid xs>
@@ -111,7 +99,7 @@ export const FormRegisterEvent = ({ handleSubmit }) => {
                 type="date"
                 label="End Date"
                 placeholder="End Date"
-                initialValue={""}
+                initialValue={dayjs().add(1, 'day').format("YYYY-MM-DD")}
               />
             </Grid>
           </Grid.Container>
@@ -123,31 +111,27 @@ export const FormRegisterEvent = ({ handleSubmit }) => {
                 fullWidth
                 color="primary"
                 size="lg"
-                placeholder="Username"
-                initialValue={""}
+                placeholder="Description"
+                initialValue={
+                  "This Rust Meetup is an event for developers interested in learning more about the Rust programming language. Attendees will have the opportunity to network with other Rust developers, learn from experienced Rust developers, and discuss the latest developments in the Rust community. There will also be presentations and workshops on topics such as Rust fundamentals, best practices, and advanced Rust topics. All skill levels are welcome, so come join us and learn more about Rust!"
+                }
               />
             </Grid>
           </Grid.Container>
           <Grid.Container gap={2} justify="center">
             <Grid xs>
               <Checkbox isRounded defaultSelected color="primary">
-                Public Event
+                this event is public
               </Checkbox>
             </Grid>
           </Grid.Container>
-          <Row justify="space-between">
-            <Checkbox>
-              <Text size={14}>Remember me</Text>
-            </Checkbox>
-            <Text size={14}>Forgot password?</Text>
-          </Row>
         </Modal.Body>
         <Modal.Footer>
           <Button auto flat color="error" onPress={closeHandler}>
-            Close
+            Cancel
           </Button>
           <Button auto type={"submit"}>
-            Sign in
+            Save
           </Button>
         </Modal.Footer>
       </form>
