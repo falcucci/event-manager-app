@@ -2,10 +2,63 @@ import { Navbar, Text, Dropdown, Avatar } from "@nextui-org/react";
 import { Layout } from "../components/layout";
 import { Image } from "@nextui-org/react";
 import { useAtom } from "jotai";
-import { accountReducerAtom } from "../states";
+import { accountReducerAtom, eventsAtom, accessAtom, refreshAtom } from "../states";
+import { api, promiseHandler } from "../utils";
+import { Link } from "@nextui-org/react";
 
 export default function App() {
   const [account, dispatch] = useAtom(accountReducerAtom);
+  const [events, setEvents] = useAtom(eventsAtom);
+  const [access, setAccess] = useAtom(accessAtom);
+  const [refresh, setRefresh] = useAtom(refreshAtom);
+
+  const handleDropdownAction = (e) => {
+    return {
+      all: async () => {
+        const params = {
+          path: "events",
+          method: "GET",
+          access: access,
+          refresh: refresh,
+        };
+        const [fetchError, fetchData] = await promiseHandler(api(params));
+        console.log('fetchData: ', fetchData);
+        const [error, data] = await promiseHandler(fetchData.json());
+        if (error) console.log(error);
+        console.log('data: ', data);
+        setEvents(data);
+      },
+      mines: async () => {
+        const params = {
+          path: "events/mine",
+          method: "GET",
+          access: access,
+          refresh: refresh,
+        };
+        const [fetchError, fetchData] = await promiseHandler(api(params));
+        console.log('fetchData: ', fetchData);
+        const [error, data] = await promiseHandler(fetchData.json());
+        if (error) console.log(error);
+        console.log('data: ', data);
+        setEvents(data); 
+      },
+      subscribed: async () => {
+        const params = {
+          path: "events/subscribed",
+          method: "GET",
+          access: access,
+          refresh: refresh,
+        };
+        const [fetchError, fetchData] = await promiseHandler(api(params));
+        console.log('fetchData: ', fetchData);
+        const [error, data] = await promiseHandler(fetchData.json());
+        if (error) console.log(error);
+        console.log('data: ', data);
+        setEvents(data); 
+      }
+    }[e]()
+  };
+
   return (
     <Layout>
       <Navbar variant="sticky" css={{ zIndex: 9999 }}>
@@ -55,7 +108,7 @@ export default function App() {
               <Dropdown.Menu
                 aria-label="User menu actions"
                 color="success"
-                onAction={actionKey => console.log({ actionKey })}>
+                onAction={handleDropdownAction}>
                 <Dropdown.Item
                   key="profile"
                   css={{ height: "$18" }}>
@@ -66,11 +119,14 @@ export default function App() {
                     {account.email}
                   </Text>
                 </Dropdown.Item>
+                <Dropdown.Item key="mines" withDivider>
+                  Mines
+                </Dropdown.Item>
                 <Dropdown.Item key="all" withDivider>
                   All Events
                 </Dropdown.Item>
-                <Dropdown.Item key="mines" withDivider>
-                  My Events
+                <Dropdown.Item key="subscribed" withDivider>
+                  Subscribed Events
                 </Dropdown.Item>
                 <Dropdown.Item key="team_settings">
                   Create Event

@@ -17,26 +17,27 @@ import {
 } from "../icons";
 import { StyledBadge } from "../badge";
 import { promiseHandler } from "../../utils";
-import { accessAtom, eventsAtom } from "../../states";
+import { accessAtom, eventsAtom, refreshAtom } from "../../states";
+import { api } from "../../utils";
 
 import { useEffect } from "react";
 
 export const Events = () => {
   const [access, setAccess] = useAtom(accessAtom);
+  const [refresh, setRefresh] = useAtom(refreshAtom);
   const [events, setEvents] = useAtom(eventsAtom);
 
   useEffect(() => {
     const fetchEvents = async () => {
-      const [fetchError, fetchData] = await promiseHandler(
-        fetch("http://localhost:8000/api/events", {
-          method: "GET",
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: `Bearer ${access}`,
-          },
-        })
-      );
+      const params = {
+        path: "events",
+        method: "GET",
+        access: access,
+        refresh: refresh,
+      };
+      const [fetchError, fetchData] = await promiseHandler(api(params));
       if (fetchError) console.log(fetchError);
+      console.log('fetchData: ', fetchData);
       const [error, data] = await promiseHandler(fetchData.json());
       if (error) console.log(error);
       console.log('data: ', data);
