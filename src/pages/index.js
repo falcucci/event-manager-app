@@ -50,6 +50,7 @@ export default function App() {
           refresh: refresh,
         };
         const [fetchError, fetchData] = await promiseHandler(api(params));
+        if (fetchError) console.log(fetchError);
         console.log('fetchData: ', fetchData);
         const [error, data] = await promiseHandler(fetchData.json());
         if (error) console.log(error);
