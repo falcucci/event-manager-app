@@ -147,7 +147,7 @@ export const Events = () => {
               </Tooltip>
             </Col>
             <Col css={{ d: "flex" }}>
-              <Tooltip content="Create event">
+              <Tooltip content="Edit event">
                 <IconButton
                   onClick={() => {
                     console.log("Edit event", event.id);
