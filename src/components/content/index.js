@@ -33,15 +33,12 @@ export const Content = () => {
       dispatch({ type: actions.LOGGING_IN });
       const { username, password } = user;
       console.log('user: ', user);
-      const [fetchError, fetchData] = await promiseHandler(
-       fetch("http://localhost:8000/api/auth/login", {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({ username, password }),
-        })
-      );
+      const params = {
+        path: "auth/login",
+        method: "POST",
+        body: { username, password },
+      };
+      const [fetchError, fetchData] = await promiseHandler(api(params));
       if (fetchError) console.log(fetchError);
       const [error, data] = await promiseHandler(fetchData.json());
       if (error) console.log(error);
