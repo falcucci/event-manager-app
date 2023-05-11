@@ -12,8 +12,8 @@ export const eventAtom = atom({
   description: `This Rust Meetup is an event for developers interested
   in learning more about the Rust programming language.`,
   status: "active",
-  start_date: dayjs().format("YYYY-MM-DD"),
-  end_date: dayjs().add(1, 'day').format("YYYY-MM-DD"),
+  start_date: dayjs().add(1, 'day').format("YYYY-MM-DD"), 
+  end_date: dayjs().add(2, 'day').format("YYYY-MM-DD"),
   location: "Milan",
   is_public: true,
 });

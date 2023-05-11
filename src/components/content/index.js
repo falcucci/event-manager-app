@@ -97,7 +97,7 @@ export const Content = () => {
     
     log('data: ', data);
     setEventRegisterModal(false);
-    events.push(data)
+    events.unshift(data)
     setEvents(events);
   }
 
