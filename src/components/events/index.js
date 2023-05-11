@@ -277,6 +277,11 @@ export const Events = () => {
                 <IconButton
                   onClick={() => {
                     console.log("Edit event", event.id);
+                    if (event.created_by !== account.id) {
+                      return alert(
+                        "You are not allowed to delete this event"
+                      );
+                    }
                     setEventRegisterModal(true);
                   }}>
                   <EditIcon size={20} fill="#979797" />
