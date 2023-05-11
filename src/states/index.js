@@ -21,6 +21,10 @@ export const eventAtom = atom({
 export const accessAtom = atomWithStorage("access", null);
 export const refreshAtom = atomWithStorage("refresh", null);
 
+export const loginErrorAtom = atom(null);
+
+export const validLoginAtom = atom(false);
+
 export const loginVisibleAtom = atomWithStorage(
   "loginVisible",
   true

@@ -1,12 +1,18 @@
+import _ from "lodash";
 import { Grid } from "@nextui-org/react";
-import { useAtom } from "jotai";
+import { useAtom, useSetAtom } from "jotai";
 import { Events } from "../../components/events";
 import { FormLogin } from "../../components/forms/login";
 import {
   FormRegisterEvent
 } from "../../components/forms/event";
 import { promiseHandler, api } from "../../utils";
-import { accountReducerAtom, registerEventVisibleAtom, eventsAtom } from "../../states";
+import {
+  accountReducerAtom,
+  registerEventVisibleAtom,
+  loginErrorAtom,
+  eventsAtom,
+} from "../../states";
 import { actions, accessAtom, refreshAtom, loginVisibleAtom } from "../../states";
 import { useEffect } from "react";
 
@@ -19,6 +25,8 @@ export const Content = () => {
   );
   const [access, setAccess] = useAtom(accessAtom);
   const [refresh, setRefresh] = useAtom(refreshAtom);
+
+  const setLoginError = useSetAtom(loginErrorAtom);
 
   useEffect(() => {
     console.log('account.loggedIn: ', account.loggedIn);
@@ -39,9 +47,18 @@ export const Content = () => {
         body: { username, password },
       };
       const [fetchError, fetchData] = await promiseHandler(api(params));
-      if (fetchError) console.log(fetchError);
+      if (fetchError || _.get(fetchData, 'status') >= 400) {
+        console.log('fetchData: ', fetchData);
+        console.log('unicorn1');
+        console.log(fetchError); 
+        setLoginError('Invalid username or password')
+        return;
+      } 
       const [error, data] = await promiseHandler(fetchData.json());
-      if (error) console.log(error);
+      if (error) {
+        console.log(error); 
+        return
+      }
       dispatch({
         type: actions.LOGGED_IN,
         value: data,
@@ -51,6 +68,7 @@ export const Content = () => {
       console.log('account: ', account);
     } catch (error) {
       console.log(error);
+      return
     }
   };
 
