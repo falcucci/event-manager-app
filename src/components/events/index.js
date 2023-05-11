@@ -61,14 +61,30 @@ export const Events = () => {
   const renderCell = (event, columnKey) => {
     const cellValue = event[columnKey];
     switch (columnKey) {
+      case "id":
+        return (
+          <Text b>
+          {cellValue}
+          </Text>
+        );
       case "name":
         return (
           <Row justify="center" align="center">
-             <Text b size={14} css={{ tt: "capitalize" }}> 
+             <Text css={{ tt: "capitalize" }}> 
               {cellValue} 
             </Text>
           </Row>
         );
+
+      case "description":
+        return (
+          <Row align="center">
+             <Text css={{ tt: "capitalize" }}> 
+              {cellValue} 
+            </Text>
+          </Row>
+        );
+
       case "role":
         return (
           <Col>
@@ -87,6 +103,7 @@ export const Events = () => {
             </Row>
           </Col>
         );
+
       case "status":
         return (
           <StyledBadge type={event.status}>{cellValue}</StyledBadge>
