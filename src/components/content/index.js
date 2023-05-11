@@ -2,6 +2,9 @@ import { Grid } from "@nextui-org/react";
 import { useAtom } from "jotai";
 import { Events } from "../../components/events";
 import { FormLogin } from "../../components/forms/login";
+import {
+  FormRegisterEvent
+} from "../../components/forms/event";
 import { promiseHandler } from "../../utils";
 import { accountReducerAtom } from "../../states";
 import { actions, accessAtom, refreshAtom, loginVisibleAtom } from "../../states";
@@ -56,6 +59,7 @@ export const Content = () => {
       css={{ alignContent: "center", alignItems: "center" }}>
       <Grid css={{ width: "100%" }}>
         <FormLogin handleSubmit={submitForm} loading={true} />
+        <FormRegisterEvent />
         { account.loggedIn && <Events />}
       </Grid>
     </Grid.Container>

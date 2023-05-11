@@ -17,7 +17,12 @@ import {
 } from "../icons";
 import { StyledBadge } from "../badge";
 import { promiseHandler } from "../../utils";
-import { accessAtom, eventsAtom, refreshAtom } from "../../states";
+import {
+  accessAtom,
+  eventsAtom,
+  refreshAtom,
+  registerEventVisibleAtom,
+} from "../../states";
 import { api } from "../../utils";
 
 import { useEffect } from "react";
@@ -26,6 +31,7 @@ export const Events = () => {
   const [access, setAccess] = useAtom(accessAtom);
   const [refresh, setRefresh] = useAtom(refreshAtom);
   const [events, setEvents] = useAtom(eventsAtom);
+  const [eventRegisterModal, setEventRegisterModal] = useAtom(registerEventVisibleAtom);
 
   useEffect(() => {
     const fetchEvents = async () => {
@@ -35,27 +41,28 @@ export const Events = () => {
         access: access,
         refresh: refresh,
       };
-      const [fetchError, fetchData] = await promiseHandler(api(params));
+      const [fetchError, fetchData] = await promiseHandler(
+        api(params)
+      );
       if (fetchError) console.log(fetchError);
-      console.log('fetchData: ', fetchData);
+      console.log("fetchData: ", fetchData);
       const [error, data] = await promiseHandler(fetchData.json());
       if (error) console.log(error);
-      console.log('data: ', data);
+      console.log("data: ", data);
       setEvents(data);
-    }
+    };
     fetchEvents();
   }, []);
 
-
   const columns = [
-    { name : "ID", uid: "id" },
-    { name : "NAME", uid: "name" },
-    { name : "DESCRIPTION", uid: "description" },
-    { name : "STARTS", uid: "start_date" },
-    { name : "ENDS", uid: "end_date" },
-    { name : "STATUS", uid: "status" },
-    { name : "LOCATION", uid: "location" },
-    { name : "CREATED BY", uid: "created_by" },
+    { name: "ID", uid: "id" },
+    { name: "NAME", uid: "name" },
+    { name: "DESCRIPTION", uid: "description" },
+    { name: "STARTS", uid: "start_date" },
+    { name: "ENDS", uid: "end_date" },
+    { name: "STATUS", uid: "status" },
+    { name: "LOCATION", uid: "location" },
+    { name: "CREATED BY", uid: "created_by" },
     { name: "ACTIONS", uid: "actions" },
   ];
 
@@ -63,26 +70,18 @@ export const Events = () => {
     const cellValue = event[columnKey];
     switch (columnKey) {
       case "id":
-        return (
-          <Text b>
-          {cellValue}
-          </Text>
-        );
+        return <Text b>{cellValue}</Text>;
       case "name":
         return (
           <Row justify="center" align="center">
-             <Text css={{ tt: "capitalize" }}> 
-              {cellValue} 
-            </Text>
+            <Text css={{ tt: "capitalize" }}>{cellValue}</Text>
           </Row>
         );
 
       case "description":
         return (
           <Row align="center">
-             <Text css={{ tt: "capitalize" }}> 
-              {cellValue} 
-            </Text>
+            <Text css={{ tt: "capitalize" }}>{cellValue}</Text>
           </Row>
         );
 
@@ -107,24 +106,20 @@ export const Events = () => {
 
       case "status":
         return (
-          <StyledBadge type={event.status}>{cellValue}</StyledBadge>
+          <StyledBadge type={event.status}>
+            {cellValue}
+          </StyledBadge>
         );
 
       case "start_date":
         return (
-          <Text>
-          {dayjs(cellValue).format("DD/MM/YYYY")}
-          </Text>
+          <Text>{dayjs(cellValue).format("DD/MM/YYYY")}</Text>
         );
 
       case "end_date":
-
         return (
-          <Text>
-          {dayjs(cellValue).format("DD/MM/YYYY")}
-          </Text>
+          <Text>{dayjs(cellValue).format("DD/MM/YYYY")}</Text>
         );
-
 
       case "actions":
         return (
@@ -142,9 +137,10 @@ export const Events = () => {
             <Col css={{ d: "flex" }}>
               <Tooltip content="Edit event">
                 <IconButton
-                  onClick={() =>
-                    console.log("Edit event", event.id)
-                  }>
+                  onClick={() => {
+                    console.log("Edit event", event.id);
+                    setEventRegisterModal(true)
+                  }}>
                   <EditIcon size={20} fill="#979797" />
                 </IconButton>
               </Tooltip>
@@ -180,7 +176,11 @@ export const Events = () => {
           <Table.Column
             key={column.uid}
             hideHeader={column.uid === "actions"}
-            align={_.includes(["actions", "name"], column.uid) ? "center" : "start"}>
+            align={
+              _.includes(["actions", "name"], column.uid)
+                ? "center"
+                : "start"
+            }>
             {column.name}
           </Table.Column>
         )}

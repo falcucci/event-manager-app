@@ -10,6 +10,7 @@ export const accessAtom = atomWithStorage('access', null)
 export const refreshAtom = atomWithStorage('refresh', null)
 
 export const loginVisibleAtom = atomWithStorage('loginVisible', true)
+export const registerEventVisibleAtom = atom(false)
 
 export const eventsAtom = atom([])
 
