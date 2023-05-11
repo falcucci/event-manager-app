@@ -289,9 +289,14 @@ export const Events = () => {
                 color="error"
                 onClick={() => {
                   console.log("Delete event", event.id);
+                  if (event.created_by !== account.id) {
+                    return alert(
+                      "You are not allowed to delete this event"
+                    );
+                  }
                   handleDelete(event.id);
                 }}>
-                <IconButton>
+                <IconButton >
                   <DeleteIcon size={20} fill="#FF0080" />
                 </IconButton>
               </Tooltip>
