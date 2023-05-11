@@ -35,7 +35,9 @@ export const Events = () => {
   const [access, setAccess] = useAtom(accessAtom);
   const [refresh, setRefresh] = useAtom(refreshAtom);
   const [events, setEvents] = useAtom(eventsAtom);
-  const [eventRegisterModal, setEventRegisterModal] = useAtom(registerEventVisibleAtom);
+  const [eventRegisterModal, setEventRegisterModal] = useAtom(
+    registerEventVisibleAtom
+  );
 
   useEffect(() => {
     const fetchEvents = async () => {
@@ -58,29 +60,77 @@ export const Events = () => {
     fetchEvents();
   }, []);
 
-  const handleSubscribe = async (id) => {
+  const handleSubscribe = async id => {
     const params = {
       path: `events/${id}/subscribe/`,
       method: "POST",
       access: access,
       refresh: refresh,
     };
-    const [fetchError, fetchData] = await promiseHandler(api(params))
+    const [fetchError, fetchData] = await promiseHandler(
+      api(params)
+    );
     if (fetchError) console.log(fetchError);
     console.log("fetchData: ", fetchData);
     const [error, data] = await promiseHandler(fetchData.json());
     if (error) console.log(error);
     console.log("data: ", data);
-    if (fetchError || fetchData.status >= 400) return alert(data.detail);
-    const [fetchEventsError, fetchEventsData] = await promiseHandler(api({
-      path: "events",
-      method: "GET",
-      access: access,
-      refresh: refresh,
-    }));
+    if (fetchError || fetchData.status >= 400)
+      return alert(data.detail);
+    const [
+      fetchEventsError,
+      fetchEventsData,
+    ] = await promiseHandler(
+      api({
+        path: "events",
+        method: "GET",
+        access: access,
+        refresh: refresh,
+      })
+    );
     if (fetchEventsError) console.log(fetchEventsError);
     console.log("fetchEventsData: ", fetchEventsData);
-    const [eventsError, eventsData] = await promiseHandler(fetchEventsData.json());
+    const [eventsError, eventsData] = await promiseHandler(
+      fetchEventsData.json()
+    );
+    if (eventsError) console.log(eventsError);
+    console.log("eventsData: ", eventsData);
+    setEvents(eventsData);
+  };
+
+  const handleUnsubscribe = async id => {
+    const params = {
+      path: `events/${id}/unsubscribe/`,
+      method: "POST",
+      access: access,
+      refresh: refresh,
+    };
+    const [fetchError, fetchData] = await promiseHandler(
+      api(params)
+    );
+    if (fetchError) console.log(fetchError);
+    console.log("fetchData: ", fetchData);
+    const [error, data] = await promiseHandler(fetchData.json());
+    if (error) console.log(error);
+    console.log("data: ", data);
+    if (fetchError || fetchData.status >= 400)
+      return alert(data.detail);
+    const [
+      fetchEventsError,
+      fetchEventsData,
+    ] = await promiseHandler(
+      api({
+        path: "events",
+        method: "GET",
+        access: access,
+        refresh: refresh,
+      })
+    );
+    if (fetchEventsError) console.log(fetchEventsError);
+    console.log("fetchEventsData: ", fetchEventsData);
+    const [eventsError, eventsData] = await promiseHandler(
+      fetchEventsData.json()
+    );
     if (eventsError) console.log(eventsError);
     console.log("eventsData: ", eventsData);
     setEvents(eventsData);
@@ -159,8 +209,13 @@ export const Events = () => {
               <Tooltip content="Subscribe">
                 <IconButton
                   onClick={() => {
-                    console.log("View event", event.id)
-                    handleSubscribe(event.id)
+                    console.log("View event", event.id);
+                    if (
+                      _.includes(event.subscribers, account.id)
+                    ) {
+                      return handleUnsubscribe(event.id);
+                    }
+                    handleSubscribe(event.id);
                   }}>
                   {_.includes(event.subscribers, account.id) ? (
                     <HeartIcon size={20} fill="#f31260" filled />
@@ -175,7 +230,7 @@ export const Events = () => {
                 <IconButton
                   onClick={() => {
                     console.log("Edit event", event.id);
-                    setEventRegisterModal(true)
+                    setEventRegisterModal(true);
                   }}>
                   <AddIcon size={20} fill="#979797" />
                 </IconButton>
@@ -186,7 +241,7 @@ export const Events = () => {
                 <IconButton
                   onClick={() => {
                     console.log("Edit event", event.id);
-                    setEventRegisterModal(true)
+                    setEventRegisterModal(true);
                   }}>
                   <EditIcon size={20} fill="#979797" />
                 </IconButton>
@@ -196,8 +251,9 @@ export const Events = () => {
               <Tooltip
                 content="Delete event"
                 color="error"
-                onClick={() =>
-                  console.log("Delete event", event.id)
+                onClick={
+                  () => console.log("Delete event", event.id)
+                  // handleDelete(event.id)
                 }>
                 <IconButton>
                   <DeleteIcon size={20} fill="#FF0080" />
