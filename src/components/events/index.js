@@ -1,4 +1,4 @@
-import { useAtom } from "jotai";
+import { useAtom, useAtomValue } from "jotai";
 import _ from "lodash";
 import dayjs from "dayjs";
 import {
@@ -23,6 +23,7 @@ import {
   accessAtom,
   eventsAtom,
   refreshAtom,
+  accountReducerAtom,
   registerEventVisibleAtom,
 } from "../../states";
 import { api } from "../../utils";
@@ -30,6 +31,7 @@ import { api } from "../../utils";
 import { useEffect } from "react";
 
 export const Events = () => {
+  const account = useAtomValue(accountReducerAtom);
   const [access, setAccess] = useAtom(accessAtom);
   const [refresh, setRefresh] = useAtom(refreshAtom);
   const [events, setEvents] = useAtom(eventsAtom);
@@ -55,6 +57,34 @@ export const Events = () => {
     };
     fetchEvents();
   }, []);
+
+  const handleSubscribe = async (id) => {
+    const params = {
+      path: `events/${id}/subscribe/`,
+      method: "POST",
+      access: access,
+      refresh: refresh,
+    };
+    const [fetchError, fetchData] = await promiseHandler(api(params))
+    if (fetchError) console.log(fetchError);
+    console.log("fetchData: ", fetchData);
+    const [error, data] = await promiseHandler(fetchData.json());
+    if (error) console.log(error);
+    console.log("data: ", data);
+    if (fetchError || fetchData.status >= 400) return alert(data.detail);
+    const [fetchEventsError, fetchEventsData] = await promiseHandler(api({
+      path: "events",
+      method: "GET",
+      access: access,
+      refresh: refresh,
+    }));
+    if (fetchEventsError) console.log(fetchEventsError);
+    console.log("fetchEventsData: ", fetchEventsData);
+    const [eventsError, eventsData] = await promiseHandler(fetchEventsData.json());
+    if (eventsError) console.log(eventsError);
+    console.log("eventsData: ", eventsData);
+    setEvents(eventsData);
+  };
 
   const columns = [
     { name: "ID", uid: "id" },
@@ -128,10 +158,15 @@ export const Events = () => {
             <Col css={{ d: "flex" }}>
               <Tooltip content="Subscribe">
                 <IconButton
-                  onClick={() =>
+                  onClick={() => {
                     console.log("View event", event.id)
-                  }>
-                  <HeartIcon size={20} fill="#979797" />
+                    handleSubscribe(event.id)
+                  }}>
+                  {_.includes(event.subscribers, account.id) ? (
+                    <HeartIcon size={20} fill="#f31260" filled />
+                  ) : (
+                    <HeartIcon size={20} fill="#979797" />
+                  )}
                 </IconButton>
               </Tooltip>
             </Col>
