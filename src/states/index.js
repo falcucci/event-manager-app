@@ -11,6 +11,8 @@ export const refreshAtom = atomWithStorage('refresh', null)
 
 export const loginVisibleAtom = atomWithStorage('loginVisible', true)
 
+export const eventsAtom = atom([])
+
 export const state = {
   first_name: "",
   last_name: "",
