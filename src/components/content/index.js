@@ -99,11 +99,27 @@ export const Content = () => {
     const [error, data] = await promiseHandler(fetchData.json());
     if (error) 
       log(error);
-    
     log('data: ', data);
     setEventRegisterModal(false);
-    events.unshift(data)
-    setEvents(events);
+    const [
+      fetchEventsError,
+      fetchEventsData,
+    ] = await promiseHandler(
+      api({
+        path: "events",
+        method: "GET",
+        access: access,
+        refresh: refresh,
+      })
+    );
+    if (fetchEventsError) console.log(fetchEventsError);
+    console.log("fetchEventsData: ", fetchEventsData);
+    const [eventsError, eventsData] = await promiseHandler(
+      fetchEventsData.json()
+    );
+    if (eventsError) console.log(eventsError);
+    console.log("eventsData: ", eventsData);
+    setEvents(eventsData);
     setEvent(eventDefault)
   }
 
