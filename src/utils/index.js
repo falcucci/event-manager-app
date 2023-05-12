@@ -36,7 +36,7 @@ export const api = async ({
   access,
   refresh
 }) => {
-  const url = `http://localhost:8000/api/${path}`;
+  const url = `${process.env.NEXT_PUBLIC_EVENTS_MANAGER_API}/api/${path}`
   const params = {
     method,
     headers,
