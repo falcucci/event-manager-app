@@ -7,16 +7,19 @@ export const userAtom = atom({
   password: "alexsander",
 });
 
-export const eventAtom = atom({
+export const eventDefault = {
+  id: null,
   name: "Rust Meetup",
   description: `This Rust Meetup is an event for developers interested
   in learning more about the Rust programming language.`,
   status: "active",
-  start_date: dayjs().add(1, 'day').format("YYYY-MM-DD"), 
-  end_date: dayjs().add(2, 'day').format("YYYY-MM-DD"),
+  start_date: dayjs().add(1, "day").format("YYYY-MM-DD"),
+  end_date: dayjs().add(2, "day").format("YYYY-MM-DD"),
   location: "Milan",
   is_public: true,
-});
+};
+
+export const eventAtom = atom(eventDefault);
 
 export const accessAtom = atomWithStorage("access", null);
 export const refreshAtom = atomWithStorage("refresh", null);

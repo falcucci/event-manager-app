@@ -11,7 +11,9 @@ import {
   accountReducerAtom,
   registerEventVisibleAtom,
   loginErrorAtom,
+  eventDefault,
   eventsAtom,
+  eventAtom,
 } from "../../states";
 import { actions, accessAtom, refreshAtom, loginVisibleAtom } from "../../states";
 import { useEffect } from "react";
@@ -21,6 +23,7 @@ const { log } = console;
 export const Content = () => {
   const [account, dispatch] = useAtom(accountReducerAtom);
   const [events, setEvents] = useAtom(eventsAtom);
+  const setEvent = useSetAtom(eventAtom);
   const [loginVisible, setLoginVisible] = useAtom(loginVisibleAtom);
   const [eventRegisterModal, setEventRegisterModal] = useAtom(
     registerEventVisibleAtom
@@ -78,14 +81,16 @@ export const Content = () => {
   };
 
   const submitEventForm = async event => {
-    
+    const path = event.id ? `events/${event.id}/` : "events/";
+    const method = event.id ? "PUT" : "POST";
+    _.unset(event, "id");
     log('event: ', event);
     const params = {
-      path: "events/",
-      method: "POST",
+      path,
+      method,
+      body: event,
       access: access,
       refresh: refresh,
-      body: event,
     };
 
     const [fetchError, fetchData] = await promiseHandler(api(params))
@@ -99,6 +104,7 @@ export const Content = () => {
     setEventRegisterModal(false);
     events.unshift(data)
     setEvents(events);
+    setEvent(eventDefault)
   }
 
 

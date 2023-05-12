@@ -1,3 +1,4 @@
+import _ from "lodash";
 /**
  *
  * takes a promise and returns the promise's data on success or
@@ -34,7 +35,7 @@ export const api = async ({
 
   headers["Authorization"] = `Bearer ${access}`;
 
-  if (method === "POST") {
+  if (_.includes(["POST", "PUT", "PATCH"], method)) {
     headers["Content-Type"] = "application/json";
   }
 

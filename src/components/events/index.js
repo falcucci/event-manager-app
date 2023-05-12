@@ -1,4 +1,4 @@
-import { useAtom, useAtomValue } from "jotai";
+import { useAtom, useAtomValue, useSetAtom } from "jotai";
 import _ from "lodash";
 import dayjs from "dayjs";
 import {
@@ -22,6 +22,7 @@ import { promiseHandler } from "../../utils";
 import {
   accessAtom,
   eventsAtom,
+  eventAtom,
   refreshAtom,
   accountReducerAtom,
   registerEventVisibleAtom,
@@ -35,6 +36,7 @@ export const Events = () => {
   const [access, setAccess] = useAtom(accessAtom);
   const [refresh, setRefresh] = useAtom(refreshAtom);
   const [events, setEvents] = useAtom(eventsAtom);
+  const setEvent = useSetAtom(eventAtom)
   const [eventRegisterModal, setEventRegisterModal] = useAtom(
     registerEventVisibleAtom
   );
@@ -283,6 +285,7 @@ export const Events = () => {
                       );
                     }
                     setEventRegisterModal(true);
+                    setEvent(event);
                   }}>
                   <EditIcon size={20} fill="#979797" />
                 </IconButton>
