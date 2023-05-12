@@ -42,6 +42,13 @@ export const Content = () => {
   }, [account.loggedIn]);
 
   
+  /**
+   * Submits a form with the given user data
+   * 
+   * @param {Object} user - The user data to submit
+   * 
+   * @returns {Promise} - A promise that resolves when the form is successfully submitted
+   */
   const submitForm = async user => {
     try {
       dispatch({ type: actions.LOGGING_IN });
@@ -80,6 +87,11 @@ export const Content = () => {
     }
   };
 
+  /**
+   * Submits an event form
+   * @param {Object} event - The event object to be submitted
+   * @returns {Promise} - A promise that resolves when the form is successfully submitted
+   */
   const submitEventForm = async event => {
     const path = event.id ? `events/${event.id}/` : "events/";
     const method = event.id ? "PUT" : "POST";

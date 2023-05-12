@@ -14,6 +14,20 @@ export const promiseHandler = promise => {
   return promise.then(data => [null, data]).catch(err => [err]);
 };
 
+
+/**
+ * Makes an API request to the specified path.
+ * 
+ * @param {Object} params - The parameters for the API request.
+ * @param {string} params.path - The path of the API request.
+ * @param {string} params.method - The HTTP method of the API request.
+ * @param {Object} params.body - The body of the API request.
+ * @param {Object} params.headers - The headers of the API request.
+ * @param {string} params.access - The access token for the API request.
+ * @param {string} params.refresh - The refresh token for the API request.
+ * 
+ * @returns {Promise} - The response from the API request.
+ */
 export const api = async ({
   path = "",
   method = "GET",
@@ -34,21 +48,8 @@ export const api = async ({
   }
 
   headers["Authorization"] = `Bearer ${access}`;
-
   if (_.includes(["POST", "PUT", "PATCH"], method)) {
     headers["Content-Type"] = "application/json";
   }
-
   return await fetch(url, params);
 }
-
-
-
-//  const apiCall = async (params) => {
-//    const [fetchError, fetchData] = await promiseHandler(api(params));
-//    console.log('fetchData: ', fetchData);
-//    const [error, data] = await promiseHandler(fetchData.json());
-//    if (error) console.log(error);
-//    console.log('data: ', data);
-//    return data;
-//  }
