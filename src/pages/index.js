@@ -147,7 +147,7 @@ export default function App() {
             </Navbar.Link>
             <Navbar.Link
               target={"_blank"}
-              href="http://localhost:8000/swagger/"
+              href="https://github.com/falcucci/event-manager-api"
               isActive
               activeColor="success">
               API Docs
