@@ -2,6 +2,8 @@
 
 Yet another app that allows users to create, manage, and view events.
 
+check it out the [api](https://github.com/falcucci/event-manager-ap) for more informations.
+
 ![Screen Recording 2023-05-12 at 03 19 02](https://github.com/falcucci/event-manager-app/assets/33763843/393b86b0-2675-4516-a749-db336e02290f)
 
 ## Technologies Used
