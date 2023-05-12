@@ -4,6 +4,10 @@
 
 Yet another app that allows users to create, manage, and view events.
 
+
+![Screen Recording 2023-05-12 at 03 07 20](https://github.com/falcucci/event-manager-app/assets/33763843/3a5b7f09-1548-4541-8d62-c700529b00e6)
+
+
 ## Features
 
  - Create events with title, description, date, and time
