@@ -6,14 +6,6 @@ Yet another app that allows users to create, manage, and view events.
 
 ![Screen Recording 2023-05-12 at 03 19 02](https://github.com/falcucci/event-manager-app/assets/33763843/df8cb4f2-07c6-40a4-a049-87859ca1e4de)
 
-## Features
-
- - Create events with title, description, date, and time
- - View events in a list or calendar view
- - Edit and delete events
- - Search for events
- - Share events with friends
-
 ## Technologies Used
 
  - React
