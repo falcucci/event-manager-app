@@ -281,7 +281,7 @@ export const Events = () => {
                     console.log("Edit event", event.id);
                     if (event.created_by !== account.id) {
                       return alert(
-                        "You are not allowed to delete this event"
+                        "You are not allowed to edit this event"
                       );
                     }
                     setEventRegisterModal(true);
